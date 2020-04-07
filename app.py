@@ -40,6 +40,42 @@ def get_todos():
     result = todos_schema.dump(all_todos)
     return jsonify(result)
 
+# POST route
+@app.route("/todo", methods=["POST"])
+def add_todo():
+    title = request.json["title"]
+    done = request.json["done"]
+
+    new_todo = Todo(title, done)
+
+    db.session.add(new_todo)
+    db.session.commit()
+
+    todo = Todo.query.get(new_todo.id)
+    return todo_schema.jsonify(todo)
+
+# PUT / PATCH
+@app.route("/todo/<id>", methods=["PATCH"])
+def update_todo(id):
+    todo = Todo.query.get(id)
+
+    new_done = request.json["done"]
+
+    todo.done = new_done
+
+    db.session.commit()
+    return todo_schema.jsonify(todo)
+
+# DELETE route
+@app.route("/todo/<id>", methods=["DELETE"])
+def delete_todo(id):
+    record = Todo.query.get(id)
+    db.session.delete(record)
+    db.session.commit()
+
+    return jsonify("Record successfully deleted.")
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
