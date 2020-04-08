@@ -6,7 +6,7 @@ from flask_heroku import Heroku
 import os
 
 app = Flask(__name__)
-CORS(APP)
+CORS(app)
 heroku = Heroku(app)
 
 
