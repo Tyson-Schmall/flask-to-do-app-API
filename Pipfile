@@ -14,6 +14,7 @@ flask-cors = "*"
 gunicorn = "*"
 psycopg2 = "*"
 environs = "*"
+flask-heroku = "*"
 
 [requires]
 python_version = "3.8"
